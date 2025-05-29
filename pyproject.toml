@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "musicprj"
+version = "0.1.0"
+description = "My Django music app"
+authors = ["subhash <subhashpemula450@gmail.com>"]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0" 
+pymysql = "^1.1.1"
+pillow = "^11.2.1"
+cryptography = "^45.0.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+black = "^23.1"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
