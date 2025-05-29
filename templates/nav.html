@@ -1,0 +1,222 @@
+
+<style>
+    /* Movie Grid Styles */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    padding: 1.5rem 0;
+}
+
+.movie-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    transition: all var(--transition-medium);
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    aspect-ratio: 2/3;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    background: var(--card-hover);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-medium);
+}
+
+.movie-card:hover .movie-poster {
+    transform: scale(1.03);
+}
+
+.movie-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 1rem 1rem;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+}
+
+.movie-card:hover .movie-info {
+    opacity: 1;
+}
+
+.movie-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.movie-rating svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--primary-color);
+}
+
+.movie-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+}
+
+.movie-card:hover .movie-actions {
+    opacity: 1;
+}
+
+.action-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.action-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .movie-info {
+        padding: 1rem 0.75rem 0.75rem;
+        opacity: 1;
+    }
+    
+    .movie-title {
+        font-size: 1rem;
+    }
+    
+    .movie-meta {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .movie-actions {
+        opacity: 1;
+        top: 0.25rem;
+        right: 0.25rem;
+    }
+    
+    .action-btn {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .action-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.movie-card {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+/* Delay animations for each card */
+.movie-card:nth-child(1) { animation-delay: 0.1s; }
+.movie-card:nth-child(2) { animation-delay: 0.2s; }
+.movie-card:nth-child(3) { animation-delay: 0.3s; }
+.movie-card:nth-child(4) { animation-delay: 0.4s; }
+.movie-card:nth-child(5) { animation-delay: 0.5s; }
+.movie-card:nth-child(6) { animation-delay: 0.6s; }
+.movie-card:nth-child(7) { animation-delay: 0.7s; }
+.movie-card:nth-child(8) { animation-delay: 0.8s; }
+</style>
+
+<div class="movie-grid">
+    {% for movie in movies %}
+    <div class="movie-card" data-rating="{{ movie.rating }}" data-year="{{ movie.year }}">
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster" class="movie-poster">
+        <div class="movie-info">
+            <h3 class="movie-title">{{ movie.title }}</h3>
+            <div class="movie-meta">
+                <span class="movie-year">{{ movie.year }}</span>
+                <span class="movie-rating">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {{ movie.rating }}
+                </span>
+            </div>
+        </div>
+        <div class="movie-actions">
+            <button class="action-btn" aria-label="Add to favorites">
+                <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg>
+            </button>
+            <button class="action-btn" aria-label="Add to watchlist">
+                <svg viewBox="0 0 24 24"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/></svg>
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>

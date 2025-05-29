@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Playlist</title>
+   <style>
+
+         /* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.playlist-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.playlist {
+    list-style-type: none;
+}
+
+.playlist-item {
+    background-color: #fafafa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.playlist-item:hover {
+    background-color: #f0f0f0;
+}
+
+.song-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.artist {
+    color: #777;
+}
+
+/* Add to previous CSS */
+.playlist-item.active {
+    background-color: #d3ffd3;
+    font-weight: bold;
+}
+
+   </style>
+</head>
+<body>
+    <div class="playlist-container">
+        <h1>My Music Playlist</h1>
+        <ul class="playlist">
+            <li class="playlist-item" data-audio="song1.mp3">
+                <span class="song-title">{{ obj.name }}</span> - <span class="artist">Artist 1</span>
+            </li>
+            <li class="playlist-item" data-audio="song2.mp3">
+                <span class="song-title">Song Title 2</span> - <span class="artist">Artist 2</span>
+            </li>
+            <li class="playlist-item" data-audio="song3.mp3">
+                <span class="song-title">Song Title 3</span> - <span class="artist">Artist 3</span>
+            </li>
+            <!-- Add more songs here -->
+        </ul>
+        <audio id="audioPlayer" controls>
+             <source src="/media/{{ obj.choosevideo }}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script>
+        // Get elements
+const playlistItems = document.querySelectorAll('.playlist-item');
+const audioPlayer = document.getElementById('audioPlayer');
+const audioSource = document.getElementById('audioSource');
+
+// Function to play the selected song
+function playSong(song) {
+    // Set the audio source to the selected song
+    const songFile = song.getAttribute('data-audio');
+    audioSource.src = songFile;
+
+    // Reset the audio player and play
+    audioPlayer.load(); // Load the new audio file
+    audioPlayer.play();
+
+    // Highlight the active song
+    playlistItems.forEach(item => item.classList.remove('active'));
+    song.classList.add('active');
+}
+
+// Add event listeners to each playlist item
+playlistItems.forEach(item => {
+    item.addEventListener('click', () => {
+        playSong(item);
+    });
+});
+
+    </script>
+</body>
+</html>

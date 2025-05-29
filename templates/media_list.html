@@ -1,0 +1,32 @@
+<!-- templates/media_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Media List</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Media Playlist</h1>
+    <ul>
+        {% for item in media_items %}
+            <li>
+                <strong>{{ item.name }}</strong> ({{ item.file_type }})<br>
+                {% if item.file_type == 'audio' %}
+                    <audio controls>
+                        <source src="{{ item.file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% elif item.file_type == 'video' %}
+                    <video width="320" height="240" controls>
+                        <source src="{{ item.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'upload_media' %}">Upload More</a>
+</body>
+</html>
